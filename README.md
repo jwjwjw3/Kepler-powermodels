@@ -23,15 +23,16 @@ All scripts the user needs to run are in:
 ```
 /src/
 ```
-User needs to ```cd``` to this directory, and then run all the following scripts one-by-one, starting from ```./0_settings.sh```.
+User needs to ```cd``` to this directory, and then run all the following scripts one-by-one, starting from ```./1_init_env.sh```.
 - 0_settings.sh: This script does not need to be executed, user need to write worker hostname filenames to it.
 - 1_init_env.sh
     - update automated settings in 0_settings.sh
     - download Kepler-model-server and switch to corresponding commit
     - start a local kind cluster on the target machine 
-- 2_start_pipeline.sh
-    - start running the tekton pipeline for several hours and collect data for power model
-- 3_retrieve_results.sh
+    - start running the tekton pipeline for several hours and obtain runtime data for power model
+
+    Note that this script finishes in several minutes, but the pipeline runs for several hours, can check if pipeline finishes using command ```kubectl get pods```. Prometheus WebUI should be available at http://localhost:9090 after this script finishes.
+- 2_retrieve_results.sh
     - deploy in a new pod and download results from kind cluster to the specified directory in ```0_settings.sh```
-- 4_cleanup.sh
+- 3_cleanup.sh
     - remove the kind clusters created in ```1_init_env.sh```.
