@@ -6,5 +6,5 @@ source ./0_settings.sh
 
 # destroy cluster using script.sh in kepler-model-server
 cd $KEPLER_POWERMODELS_PDIR/libs/kepler-model-server/model_training
-sudo ./srcript.sh cleanup
+sudo ./script.sh cleanup
 # Done!

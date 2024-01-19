@@ -4,7 +4,7 @@
 
 # update the basic settings and setup script dirs
 sed -i '/KEPLER_POWERMODELS_PDIR/d' ./0_settings.sh
-echo "KEPLER_POWERMODELS_PDIR=$(dirname $(dirname $(dirname "`pwd`")))" >> 0_settings.sh
+echo "KEPLER_POWERMODELS_PDIR=$(dirname "`pwd`")" >> 0_settings.sh
 source ./0_settings.sh
 
 # check Kepler-model-server
@@ -21,7 +21,7 @@ cd $KEPLER_POWERMODELS_PDIR/src
 
 # start kind cluster using script.sh in kepler-model-server
 cd $KEPLER_POWERMODELS_PDIR/libs/kepler-model-server/model_training
-sudo ./srcript.sh prepare_cluster
+sudo ./script.sh prepare_cluster
 
 # Now we should already have access to Prometheus at http://localhost:9090.
 # Done!

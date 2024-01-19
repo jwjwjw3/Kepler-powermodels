@@ -1,4 +1,4 @@
-# Usage Guide
+# User Guide
 
 ## Overview
 
@@ -23,7 +23,7 @@ All scripts the user needs to run are in:
 ```
 /src/
 ```
-User needs to run all the following scripts one-by-one, starting from ```0_settings.sh```.
+User needs to ```cd``` to this directory, and then run all the following scripts one-by-one, starting from ```./0_settings.sh```.
 - 0_settings.sh: This script does not need to be executed, user need to write worker hostname filenames to it.
 - 1_init_env.sh
     - update automated settings in 0_settings.sh
