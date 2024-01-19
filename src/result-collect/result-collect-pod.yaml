@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: result-check-pod
+  name: result-collect-pod
 spec:
   containers:
   - name: explorer
