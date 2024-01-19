@@ -45,7 +45,7 @@ sudo ./script.sh prepare_cluster
 # cd $KEPLER_POWERMODELS_PDIR/src
 
 # patch prometheus to enable database exporting
-KUBE_CONFIG_PATH="/home/userjaw/Documents/kepler-model-server/model_training/custom-cluster/kind/.kubeconfig"
+KUBE_CONFIG_PATH="$KEPLER_POWERMODELS_PDIR/libs/kepler-model-server/model_training/custom-cluster/kind/.kubeconfig"
 echo "waiting for 10s for prometheus to start..."
 # sleep 10
 # enable memory snapshot, recommended for taking prometheus TSDB snapshots later.
