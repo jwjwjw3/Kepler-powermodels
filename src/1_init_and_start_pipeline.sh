@@ -19,11 +19,41 @@ cd $KEPLER_POWERMODELS_PDIR/libs/kepler-model-server
 git checkout 005852032f2fd03c2e84818ea92abc0541464f95
 # cd $KEPLER_POWERMODELS_PDIR/src
 
+if [ -x "$(command -v docker)" ]; then
+    echo "docker installation found."
+else
+    echo "docker not found or not properly configured. Trying to install docker..."
+    # check if docker is installed
+    for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do sudo apt-get remove $pkg -y; done
+    sudo apt-get update
+    sudo apt-get install ca-certificates curl gnupg -y
+    sudo install -m 0755 -d /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    sudo chmod a+r /etc/apt/keyrings/docker.gpg
+    echo \
+    "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+    "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    sudo apt-get update
+    sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+    sudo docker run hello-world
+fi
+
 # start kind cluster using script.sh in kepler-model-server
 cd $KEPLER_POWERMODELS_PDIR/libs/kepler-model-server/model_training
 sudo ./script.sh prepare_cluster
 # cd $KEPLER_POWERMODELS_PDIR/src
 
+# create new screen sessions for looping-forever kubectl prometheus port forwarding
+# Note: a screen can be killed by command: screen -XS screen_id quit
+sudo apt install screen
+if ! screen -list | grep -q pmt_port_forward; then
+    echo "starting prometheus port forwarding screen..."
+	# screen -S pmt_port_forward -d -m ./runtime_scripts/prometheus_port_forward.sh
+	screen -S pmt_port_forward -d -m bash -c "while true; do kubectl --namespace monitoring port-forward svc/prometheus-k8s 9090; done;"
+else 
+    echo "prometheus port forwarding screen detected, assuming it is working normally..."
+fi
 # Now we should already have access to Prometheus at http://localhost:9090.
 
 # Next let's run Tekton pipeline, documentations at: 
