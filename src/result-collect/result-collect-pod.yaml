@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: result-check-pod
+spec:
+  containers:
+  - name: explorer
+    image: alpine
+    command: ["sh", "-c", "sleep infinity"]
+    volumeMounts:
+    - mountPath: "/mnt"
+      name: task-pv-volume
+  volumes:
+  - name: task-pv-volume
+    persistentVolumeClaim:
+      claimName: task-pvc
