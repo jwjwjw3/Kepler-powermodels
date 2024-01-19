@@ -4,7 +4,7 @@
 source 0_settings.sh
 # source _analysis/prometheus_export_settings.sh
 
-pmt_pod_name="prometheus-k8s-1"
+pmt_pod_name="prometheus-k8s-0"
 snapshot_target_dir="$pmt_export_directory/prometheus_snapshots-1st/"
 
 echo "getting information from pod: $pmt_pod_name"
