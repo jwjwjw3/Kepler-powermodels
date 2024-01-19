@@ -14,7 +14,7 @@ sleep 75
 # Use kubectl to copy Kepler powermodel folders to local data storage
 # kubectl cp -n default result-collect-pod:/mnt/data/ $OUTPUT_POWERMODEL_RELATIVE_PATH/data/
 # kubectl cp -n default result-collect-pod:/mnt/models/ $OUTPUT_POWERMODEL_RELATIVE_PATH/models/
-kubectl cp -n default result-collect-pod:/mnt/models/XgboostFitTrainer_1.zip $OUTPUT_POWERMODEL_RELATIVE_PATH
+kubectl cp -n default result-collect-pod:/mnt/models/AbsPowerTrainPipelineExample/rapl/AbsPower/BPFOnly/XgboostFitTrainer_1.zip $OUTPUT_POWERMODEL_RELATIVE_PATH
 
 # Remove the pod after finishing downloading Kepler powermodel
 kubectl delete -f result-collect/result-collect-pod.yaml
