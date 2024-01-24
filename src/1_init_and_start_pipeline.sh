@@ -44,6 +44,9 @@ cd $KEPLER_POWERMODELS_PDIR/libs/kepler-model-server/model_training
 sudo ./script.sh prepare_cluster
 # cd $KEPLER_POWERMODELS_PDIR/src
 
+# correct permission of config files
+sudo chown -R $(id -u):$(id -g) $HOME/.kube/
+
 # patch prometheus to enable database exporting
 KUBE_CONFIG_PATH="$KEPLER_POWERMODELS_PDIR/libs/kepler-model-server/model_training/custom-cluster/kind/.kubeconfig"
 echo "waiting for 10s for prometheus to start..."
