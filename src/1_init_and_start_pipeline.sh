@@ -49,8 +49,11 @@ sudo chown -R $(id -u):$(id -g) $HOME/.kube/
 
 # patch prometheus to enable database exporting
 KUBE_CONFIG_PATH="$KEPLER_POWERMODELS_PDIR/libs/kepler-model-server/model_training/custom-cluster/kind/.kubeconfig"
-echo "waiting for 10s for prometheus to start..."
-sleep 10
+echo "waiting for prometheus to start..."
+kubectl wait pod \
+    --all \
+    --for=condition=Ready \
+    --namespace=monitoring
 # enable memory snapshot, recommended for taking prometheus TSDB snapshots later.
 kubectl --kubeconfig $KUBE_CONFIG_PATH -n monitoring patch prometheus k8s --type merge --patch '{"spec":{"enableFeatures":["memory-snapshot-on-shutdown"]}}'
 # enable admin api for taking snapshots later
@@ -72,7 +75,7 @@ fi
 # Next let's run Tekton pipeline, documentations at: 
 # https://github.com/sustainable-computing-io/kepler-model-server/blob/main/model_training/tekton/README.md
 # 1. Prepare resource
-kubectl apply --filename $KEPLER_POWERMODELS_PDIR/libs/tekton/tekton_release_2024-01-05.yaml
+kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
 cd $KEPLER_POWERMODELS_PDIR/libs/kepler-model-server/model_training/tekton
 kubectl apply -f pvc/hostpath.yaml
 # 2. Deploy Tekton tasks and pipelines

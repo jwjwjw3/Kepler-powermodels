@@ -9,7 +9,9 @@ kubectl apply -f result-collect/result-collect-pod.yaml
 
 echo ""
 echo "Waiting for result-collect-pod to start..."
-sleep 75
+kubectl wait pod/result-collect-pod \
+    --for=condition=Ready \
+    --namespace=default
 
 # Use kubectl to copy Kepler powermodel folders to local data storage
 # kubectl cp -n default result-collect-pod:/mnt/data/ $KEPLER_POWERMODELS_PDIR/$OUTPUT_POWERMODEL_RELATIVE_PATH/data/
