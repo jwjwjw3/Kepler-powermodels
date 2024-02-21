@@ -16,7 +16,7 @@ else
     git clone https://github.com/sustainable-computing-io/kepler-model-server.git $KEPLER_POWERMODELS_PDIR/libs/kepler-model-server
 fi 
 cd $KEPLER_POWERMODELS_PDIR/libs/kepler-model-server
-git checkout 005852032f2fd03c2e84818ea92abc0541464f95
+git checkout fe75985694afa78fc21ee4eac5df36731d6eff4b
 # cd $KEPLER_POWERMODELS_PDIR/src
 
 if [ -x "$(command -v docker)" ]; then
@@ -80,10 +80,10 @@ cd $KEPLER_POWERMODELS_PDIR/libs/kepler-model-server/model_training/tekton
 kubectl apply -f pvc/hostpath.yaml
 # 2. Deploy Tekton tasks and pipelines
 kubectl apply -f tasks
-kubectl apply -f tasks/s3-pusher
+kubectl apply -f tasks/s3
 kubectl apply -f pipelines
 # 3. Run Tekton pipeline
-kubectl apply -f pipelineruns/kepler-default.yaml
+kubectl apply -f examples/single-train/default.yaml
 cd $KEPLER_POWERMODELS_PDIR/src
 
 # Wait until experiment finishes, it can take several hours.
