@@ -17,8 +17,11 @@ else
 fi 
 cd $KEPLER_POWERMODELS_PDIR/libs/kepler-model-server
 git checkout 005852032f2fd03c2e84818ea92abc0541464f95
+# patch kepler deployment to use a specified version of kepler image
 sed -i 's@image: quay.io/sustainable_computing_io/kepler:latest@image: jvpoidaq/kepler-v0.7.2:latest@g' $KEPLER_POWERMODELS_PDIR/libs/kepler-model-server/model_training/deployment/kepler.yaml
-# cd $KEPLER_POWERMODELS_PDIR/src
+# patch model training pipelinerun to use a specific version of kepler-model-server image
+sed -i 's@  pipelineRef:@  - name: MODEL_SERVER_IMAGE\n    value: jvpoidaq/kepler-model-server-v0.7:latest\n  pipelineRef:@g' $KEPLER_POWERMODELS_PDIR/libs/kepler-model-server/model_training/tekton/pipelineruns/kepler-default.yaml
+cd $KEPLER_POWERMODELS_PDIR/src
 
 if [ -x "$(command -v docker)" ]; then
     echo "docker installation found."
@@ -83,7 +86,7 @@ kubectl apply -f pvc/hostpath.yaml
 kubectl apply -f tasks
 kubectl apply -f tasks/s3-pusher
 kubectl apply -f pipelines
-# 3. Run Tekton pipeline
+# 3. Run Tekton pipeline, note that the pipelinerun has been patched after git cloning kepler-model-server.
 kubectl apply -f pipelineruns/kepler-default.yaml
 cd $KEPLER_POWERMODELS_PDIR/src
 
