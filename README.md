@@ -10,11 +10,11 @@ This repo contains several bash scripts used to obtain Kepler powermodel from a 
 
 ## K8s tools used under directory ```/libs```
 - Kepler-model-server
-    - Using git commit fe75985694afa78fc21ee4eac5df36731d6eff4b
+    - Using git commit 005852032f2fd03c2e84818ea92abc0541464f95
 
-<!-- - Tekton
+- Tekton
     - Already downloaded from https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml at 2024-01-05.
-    - Official guideline at https://tekton.dev/docs/installation/pipelines. -->
+    - Official guideline at https://tekton.dev/docs/installation/pipelines.
 
 
 ## Scripts behavior description
@@ -31,9 +31,6 @@ Switch to root account before running the following scripts is highly recommende
     - download Kepler-model-server and switch to corresponding commit
     - start a local kind cluster on the target machine 
     - start running the tekton pipeline for several hours and obtain runtime data for power model
-    - Note: the main steps are taken from `kepler-model-serever` Git Repo, detailed instructions at:
-        - https://github.com/sustainable-computing-io/kepler-model-server/tree/main/model_training
-        - https://github.com/sustainable-computing-io/kepler-model-server/blob/main/model_training/tekton/README.md
 
     Note that this script finishes in several minutes, but the pipeline runs for several hours, can check if pipeline finishes using command ```kubectl get pods```. Prometheus WebUI should be available at http://localhost:9090 after this script finishes.
 - 2_retrieve_results.sh
